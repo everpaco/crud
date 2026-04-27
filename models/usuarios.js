@@ -2,18 +2,15 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Usuario extends Model {
     static associate(models) {
-      // Asociaciones opcionales (si existe el modelo Post)
-      if (models.Post) {
-        User.hasMany(models.Post, { foreignKey: 'userId', as: 'posts' });
-      }
+      // Asociaciones si se requieren
     }
   }
 
-  User.init(
+  Usuario.init(
     {
-      nombres: {
+      nombre: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -21,22 +18,25 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-          isEmail: true
-        }
+        validate: { isEmail: true }
       },
-      pass: {
+      password: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      rol: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'user'
       }
     },
     {
       sequelize,
-      modelName: 'User',
-      tableName: 'Users',
+      modelName: 'Usuario',
+      tableName: 'Usuarios',
       timestamps: true
     }
   );
 
-  return User;
+  return Usuario;
 };
